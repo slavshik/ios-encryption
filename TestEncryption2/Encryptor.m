@@ -105,6 +105,7 @@ const uint32_t keySize = 512;
         
     }
     [stream close];
+    free(cipherBuffer);
     
     return [accumulatedEncryptedData base64Encoding];
 }
