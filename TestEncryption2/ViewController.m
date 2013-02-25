@@ -12,7 +12,6 @@
 @interface ViewController ()
 {
     Encryptor *encryptor;
-    NSString *lastEncrypted;
 }
 @end
 
@@ -31,35 +30,26 @@
 }
 -(void)test
 {
-    int tests = 1;
+    int tests = 100;
     int stats = tests;
     BOOL pass = YES;
     for (int i = 0; i < tests; i++) {
-        //pass = [self validateString:@"one"];
-        pass = [self validateString:@"one two three five six seven eight one two three five six seven eight one two three five six seven eight one two three five six seven eight one two three five six seven eight one two three five six seven eight one two three five six seven eight"];
-        //NSLog(@"Pass test %@!", pass == YES ? @"ok" : @"failed");
+        pass = [self validateString:@"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."];
         if(pass){
             stats--;
         }else{
             break;
         }
     }
-    lastEncrypted = nil;
-    //NSLog(@"%i out of %i lost", stats, tests);
+    NSLog(@"%i out of %i lost", stats, tests);
 }
 - (BOOL) validateString:(NSString *) inputString
 {
     NSString *encrypted = [encryptor encrypt:inputString];
-    if(lastEncrypted == nil){
-        lastEncrypted = encrypted;
-    }
-    NSLog(@"encrypted \n%@", encrypted);
-    if(![lastEncrypted isEqualToString:encrypted]){
-        return NO;
-    }
-    lastEncrypted = [encrypted copy];
-    __unused NSString *decrypted = [encryptor decrypt:encrypted];
-    return YES;
+    NSLog(@"encrypted:\n%@", encrypted);
+    NSString *decrypted = [encryptor decrypt:encrypted];
+    NSLog(@"decrypted:\n%@",decrypted);
+    return [decrypted isEqualToString:inputString];
 }
 
 @end

@@ -97,8 +97,10 @@ const uint32_t keySize = 512;
         NSUInteger bytesRead = [stream read:buffer maxLength:cipherBufferSize];
         
         status = SecKeyEncrypt(publicKey, PADDING, buffer, bytesRead, cipherBuffer, &cipherBufferSize);
+        
         if(status != noErr){
-            NSLog(@"encryption error %li", status);
+            NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
+            NSLog(@"encrypt error %@", error);
         }
         
         [accumulatedEncryptedData appendBytes:cipherBuffer length:cipherBufferSize];
@@ -115,30 +117,29 @@ const uint32_t keySize = 512;
     OSStatus status = noErr;
     
     NSData *inputData = [[NSData alloc] initWithBase64EncodedString:str];
-    size_t dataSize = [inputData length];
-    const uint8_t* dataBytes = [inputData bytes];
     
     //  Allocate a buffer
     size_t cipherBufferSize = SecKeyGetBlockSize(privateKey);
     uint8_t *cipherBuffer = malloc(cipherBufferSize);
     
     NSMutableData* decryptedData = [NSMutableData dataWithCapacity:0];
-    
-    for (int i = 0; i*cipherBufferSize < dataSize; i++) {
-        const uint8_t* dataToDecrypt = dataBytes+(i*cipherBufferSize);
-        size_t subsize;
-        size_t cur_size = (i+1) * cipherBufferSize - dataSize;
-        if(cur_size > 0) {
-            subsize =  cipherBufferSize - cur_size;
-        }else{
-            subsize = cipherBufferSize;
+    NSInputStream *stream = [[NSInputStream alloc] initWithData:inputData];
+    [stream open];
+    while ([stream hasBytesAvailable]) {
+        uint8_t buffer[cipherBufferSize];
+        NSUInteger bytesRead = [stream read:buffer maxLength:cipherBufferSize];
+        
+        status = SecKeyDecrypt(privateKey, PADDING, buffer, bytesRead, cipherBuffer, &cipherBufferSize);
+        
+        if(status != noErr){
+            NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
+            NSLog(@"decrypt error %@", error);
         }
         
-        // Decrypt using the private key.
-        status = SecKeyDecrypt(privateKey, PADDING, dataToDecrypt, subsize, cipherBuffer, &cipherBufferSize);
-        
         [decryptedData appendBytes:cipherBuffer length:cipherBufferSize];
+        
     }
+    [stream close];
     
     free(cipherBuffer);
     
