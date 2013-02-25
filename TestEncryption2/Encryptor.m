@@ -81,7 +81,7 @@ const uint32_t keySize = 512;
 }
 - (NSString *) encrypt:(NSString *)str
 {
-    __unused OSStatus status = noErr;
+    OSStatus status = noErr;
     
     NSData* inputData = [str dataUsingEncoding:NSUTF8StringEncoding];
     
@@ -97,6 +97,9 @@ const uint32_t keySize = 512;
         NSUInteger bytesRead = [stream read:buffer maxLength:cipherBufferSize];
         
         status = SecKeyEncrypt(publicKey, PADDING, buffer, bytesRead, cipherBuffer, &cipherBufferSize);
+        if(status != noErr){
+            NSLog(@"encryption error %li", status);
+        }
         
         [accumulatedEncryptedData appendBytes:cipherBuffer length:cipherBufferSize];
         
