@@ -1,3 +1,7 @@
+//
+//  Created by Alexander Slavschik on 25.02.13.
+//
+
 #import "Encryptor.h"
 #import "NSData+AESCrypt.h"
 
@@ -7,7 +11,16 @@ const uint32_t PADDING = kSecPaddingNone;
 const uint32_t keySize = 512;
 
 @implementation Encryptor
-
+{
+    SecKeyRef publicKey;
+    SecKeyRef privateKey;
+    NSData *publicTag;
+    NSData *privateTag;
+}
+- (id) init
+{
+    @throw [[NSException alloc] initWithName:@"Initialisation failed" reason:@"You should use initWithPublicKey:andPrivateKey initialisation." userInfo:nil];
+}
 - (id) initWithPublicKey:(NSString *)public_key andPrivateKey:(NSString *)private_key
 {
     if(self = [super init])
@@ -20,66 +33,7 @@ const uint32_t keySize = 512;
     return self;
 }
 
-- (SecKeyRef) getPublicKeyRef {
-    
-    OSStatus sanityCheck = noErr;
-    SecKeyRef publicKeyReference = NULL;
-    
-    if (publicKey == NULL) {
-        [self generateKeyPair:keySize];
-        NSMutableDictionary *queryPublicKey = [[NSMutableDictionary alloc] init];
-        
-        // Set the public key query dictionary.
-        [queryPublicKey setObject:(__bridge id)kSecClassKey forKey:(__bridge id)kSecClass];
-        [queryPublicKey setObject:publicTag forKey:(__bridge id)kSecAttrApplicationTag];
-        [queryPublicKey setObject:(__bridge id)kSecAttrKeyTypeRSA forKey:(__bridge id)kSecAttrKeyType];
-        [queryPublicKey setObject:[NSNumber numberWithBool:YES] forKey:(__bridge id)kSecReturnRef];
-        
-        
-        // Get the key.
-        sanityCheck = SecItemCopyMatching((__bridge CFDictionaryRef)queryPublicKey, (CFTypeRef *)&publicKeyReference);
-        
-        
-        if (sanityCheck != noErr)
-        {
-            publicKeyReference = NULL;
-            @throw [[NSException alloc] initWithName:@"Faild to generate key" reason:@"getPrivateKeyRef failed" userInfo:nil];
-        }
-        
-    } else {
-        return publicKey;
-    }
-    
-    return publicKeyReference;
-}
-- (SecKeyRef) getPrivateKeyRef
-{
-    OSStatus resultCode = noErr;
-    SecKeyRef privateKeyReference = NULL;
-    
-    if (publicKey == NULL) {
-        [self generateKeyPair:keySize];
-        NSMutableDictionary * queryPrivateKey = [[NSMutableDictionary alloc] init];
-        
-        // Set the private key query dictionary.
-        [queryPrivateKey setObject:(__bridge id)kSecClassKey forKey:(__bridge id)kSecClass];
-        [queryPrivateKey setObject:privateTag forKey:(__bridge id)kSecAttrApplicationTag];
-        [queryPrivateKey setObject:(__bridge id)kSecAttrKeyTypeRSA forKey:(__bridge id)kSecAttrKeyType];
-        [queryPrivateKey setObject:[NSNumber numberWithBool:YES] forKey:(__bridge id)kSecReturnRef];
-        
-        // Get the key.
-        resultCode = SecItemCopyMatching((__bridge CFDictionaryRef)queryPrivateKey, (CFTypeRef *)&privateKeyReference);
-        
-        if(resultCode != noErr)
-        {
-            @throw [[NSException alloc] initWithName:@"Failed to generate key" reason:@"getPrivateKeyRef failed" userInfo:nil];
-        }
-    }else{
-        return privateKey;
-    }
-    return privateKeyReference;
-}
-- (NSString *) encrypt:(NSString *)str
+- (NSString *) encrypt:(NSString *)str error:(NSError**)e
 {
     OSStatus status = noErr;
     
@@ -99,8 +53,8 @@ const uint32_t keySize = 512;
         status = SecKeyEncrypt(publicKey, PADDING, buffer, bytesRead, cipherBuffer, &cipherBufferSize);
         
         if(status != noErr){
-            NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
-            NSLog(@"encrypt error %@", error);
+            *e = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
+            return nil;
         }
         
         [accumulatedEncryptedData appendBytes:cipherBuffer length:cipherBufferSize];
@@ -111,7 +65,7 @@ const uint32_t keySize = 512;
     
     return [accumulatedEncryptedData base64Encoding];
 }
-- (NSString *) decrypt:(NSString *)str
+- (NSString *) decrypt:(NSString *)str error:(NSError**)e
 {
     
     OSStatus status = noErr;
@@ -132,8 +86,8 @@ const uint32_t keySize = 512;
         status = SecKeyDecrypt(privateKey, PADDING, buffer, bytesRead, cipherBuffer, &cipherBufferSize);
         
         if(status != noErr){
-            NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
-            NSLog(@"decrypt error %@", error);
+            *e = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
+            return nil;
         }
         
         [decryptedData appendBytes:cipherBuffer length:cipherBufferSize];
@@ -163,12 +117,10 @@ const uint32_t keySize = 512;
     // Set the private key dictionary.
     [privateKeyAttr setObject:[NSNumber numberWithBool:YES] forKey:(__bridge id)kSecAttrIsPermanent];
     [privateKeyAttr setObject:privateTag forKey:(__bridge id)kSecAttrApplicationTag];
-    // See SecKey.h to set other flag values.
     
     // Set the public key dictionary.
     [publicKeyAttr setObject:[NSNumber numberWithBool:YES] forKey:(__bridge id)kSecAttrIsPermanent];
     [publicKeyAttr setObject:publicTag forKey:(__bridge id)kSecAttrApplicationTag];
-    // See SecKey.h to set other flag values.
     
     // Set attributes to top level dictionary.
     [keyPairAttr setObject:privateKeyAttr forKey:(__bridge id)kSecPrivateKeyAttrs];
@@ -176,12 +128,20 @@ const uint32_t keySize = 512;
     
     // SecKeyGeneratePair returns the SecKeyRefs just for educational purposes.
     sanityCheck = SecKeyGeneratePair((__bridge CFDictionaryRef)keyPairAttr, &publicKey, &privateKey);
-    
-    if(sanityCheck == noErr  && publicKey != NULL && privateKey != NULL)
-    {
-        //NSLog(@"Successful");
+    NSError *error;
+    if(sanityCheck != noErr){
+        error = [[NSError alloc] initWithDomain:NSOSStatusErrorDomain code:sanityCheck userInfo:nil];
     }else{
-        NSLog(@"Fail");
+        if(publicKey == NULL || privateKey == NULL)
+        {
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:@[[NSNumber numberWithBool:publicKey != NULL], [NSNumber numberWithBool:privateKey != NULL]]
+                                                                 forKeys:@[@"has_public", @"has_private"]];
+            error = [[NSError alloc] initWithDomain:@"Encryptor" code:1 userInfo:userInfo];
+        }
+    }
+    if(error){
+        //handle error here, if you want
+        @throw [[NSException alloc] initWithName:[error localizedDescription] reason:[error localizedFailureReason] userInfo:nil];
     }
 }
 

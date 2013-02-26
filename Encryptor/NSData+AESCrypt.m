@@ -1,7 +1,3 @@
-//
-//  Copyright (c) 2013 Monterosa Productions Ltd. All rights reserved.
-//
-
 #import "NSData+AESCrypt.h"
 #import <CommonCrypto/CommonCrypto.h>
 
