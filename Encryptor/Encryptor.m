@@ -5,11 +5,6 @@
 #import "Encryptor.h"
 #import "NSData+AESCrypt.h"
 
-const size_t BUFFER_SIZE = 64;
-const size_t CIPHER_BUFFER_SIZE = 1024;
-const uint32_t PADDING = kSecPaddingNone;
-const uint32_t keySize = 512;
-
 @implementation Encryptor
 {
     SecKeyRef publicKey;
@@ -45,27 +40,27 @@ const uint32_t keySize = 512;
     size_t cipherBufferSize = SecKeyGetBlockSize(publicKey);
     uint8_t *cipherBuffer = malloc(cipherBufferSize);
     
-    NSMutableData* accumulatedEncryptedData = [NSMutableData dataWithCapacity:0];
+    NSMutableData* encryptedData = [NSMutableData dataWithCapacity:0];
     NSInputStream *stream = [[NSInputStream alloc] initWithData:inputData];
     [stream open];
     while ([stream hasBytesAvailable]) {
         uint8_t buffer[cipherBufferSize];
         NSUInteger bytesRead = [stream read:buffer maxLength:cipherBufferSize];
         
-        status = SecKeyEncrypt(publicKey, PADDING, buffer, bytesRead, cipherBuffer, &cipherBufferSize);
+        status = SecKeyEncrypt(publicKey, kSecPaddingNone, buffer, bytesRead, cipherBuffer, &cipherBufferSize);
         
         if(status != noErr){
             *e = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
             return nil;
         }
         
-        [accumulatedEncryptedData appendBytes:cipherBuffer length:cipherBufferSize];
+        [encryptedData appendBytes:cipherBuffer length:cipherBufferSize];
         
     }
     [stream close];
     free(cipherBuffer);
     
-    return [accumulatedEncryptedData base64Encoding];
+    return [encryptedData base64Encoding];
 }
 - (NSString *) decrypt:(NSString *)str error:(NSError**)e
 {
@@ -85,7 +80,7 @@ const uint32_t keySize = 512;
         uint8_t buffer[cipherBufferSize];
         NSUInteger bytesRead = [stream read:buffer maxLength:cipherBufferSize];
         
-        status = SecKeyDecrypt(privateKey, PADDING, buffer, bytesRead, cipherBuffer, &cipherBufferSize);
+        status = SecKeyDecrypt(privateKey, kSecPaddingNone, buffer, bytesRead, cipherBuffer, &cipherBufferSize);
         
         if(status != noErr){
             *e = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
@@ -105,27 +100,17 @@ const uint32_t keySize = 512;
 #pragma mark -
 
 - (SecKeyRef) getPublicKeyRef {
+    
+    if(publicKey != NULL) return publicKey;
+    
     OSStatus resultCode = noErr;
     SecKeyRef publicKeyReference = NULL;
     
-    if(publicKey == NULL) {
-        NSMutableDictionary * queryPublicKey = [[NSMutableDictionary alloc] init];
-        
-        // Set the public key query dictionary.
-        [queryPublicKey setObject:(__bridge id)kSecClassKey         forKey:(__bridge id)kSecClass];
-        [queryPublicKey setObject:publicTag                         forKey:(__bridge id)kSecAttrApplicationTag];
-        [queryPublicKey setObject:(__bridge id)kSecAttrKeyTypeRSA   forKey:(__bridge id)kSecAttrKeyType];
-        [queryPublicKey setObject:[NSNumber numberWithBool:YES]     forKey:(__bridge id)kSecReturnRef];
-        
-        // Get the key.
-        resultCode = SecItemCopyMatching((__bridge CFDictionaryRef)queryPublicKey, (CFTypeRef *)&publicKeyReference);
-        NSLog(@"getPublicKey: result code: %ld", resultCode);
-        
-        if(resultCode != noErr)
-        {
-            publicKeyReference = NULL;
-        }
-    } else return publicKey;
+    // Get the key.
+    resultCode = SecItemCopyMatching((__bridge CFDictionaryRef)[self queryFromTag:publicTag], (CFTypeRef *)&publicKeyReference);
+    NSLog(@"getPublicKey: result code: %ld", resultCode);
+
+    if(resultCode != noErr) publicKeyReference = NULL;
     
     return publicKeyReference;
 }
@@ -134,27 +119,26 @@ const uint32_t keySize = 512;
     OSStatus resultCode = noErr;
     SecKeyRef privateKeyReference = NULL;
     
-    if(privateKey == NULL) {
-        NSMutableDictionary * queryPrivateKey = [[NSMutableDictionary alloc] init];
-        
-        // Set the private key query dictionary.
-        [queryPrivateKey setObject:(__bridge id)kSecClassKey        forKey:(__bridge id)kSecClass];
-        [queryPrivateKey setObject:privateTag                       forKey:(__bridge id)kSecAttrApplicationTag];
-        [queryPrivateKey setObject:(__bridge id)kSecAttrKeyTypeRSA  forKey:(__bridge id)kSecAttrKeyType];
-        [queryPrivateKey setObject:[NSNumber numberWithBool:YES]    forKey:(__bridge id)kSecReturnRef];
-        
-        // Get the key.
-        resultCode = SecItemCopyMatching((__bridge CFDictionaryRef)queryPrivateKey, (CFTypeRef *)&privateKeyReference);
-        NSLog(@"getPrivateKey: result code: %ld", resultCode);
-        
-        if(resultCode != noErr)
-        {
-            privateKeyReference = NULL;
-        }
-        
-    } else return privateKey;
+    if(privateKey != NULL) return privateKey;
+    
+    // Get the key.
+    resultCode = SecItemCopyMatching((__bridge CFDictionaryRef)[self queryFromTag:privateTag], (CFTypeRef *)&privateKeyReference);
+    NSLog(@"getPrivateKey: result code: %ld", resultCode);
+    
+    if(resultCode != noErr) privateKeyReference = NULL;
     
     return privateKeyReference;
 }
-
+- (NSMutableDictionary *) queryFromTag:(NSData *)tag
+{
+    NSMutableDictionary * queryKey = [[NSMutableDictionary alloc] init];
+    
+    // Set the key query dictionary.
+    [queryKey setObject:(__bridge id)kSecClassKey        forKey:(__bridge id)kSecClass];
+    [queryKey setObject:tag                              forKey:(__bridge id)kSecAttrApplicationTag];
+    [queryKey setObject:(__bridge id)kSecAttrKeyTypeRSA  forKey:(__bridge id)kSecAttrKeyType];
+    [queryKey setObject:[NSNumber numberWithBool:YES]    forKey:(__bridge id)kSecReturnRef];
+    
+    return queryKey;
+}
 @end
