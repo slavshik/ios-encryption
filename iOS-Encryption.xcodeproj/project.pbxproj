@@ -280,6 +280,7 @@
 				578AED2E16DCE314001106A8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		57CB8D7E16DB87F700591A64 /* Build configuration list for PBXProject "iOS-Encryption" */ = {
 			isa = XCConfigurationList;
