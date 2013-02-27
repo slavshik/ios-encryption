@@ -1,16 +1,14 @@
 Basic iOS encryption/decrypiton
 --------------
 
-To run example:
+To run the tests you need:
 
-- generate keys(key.pub and key) somewhere:
-
-	ssh-keygen
+- Generate keys(key.pub and key) with ssh-keygen
 
 - Add generated keys into XCode project navigator like so:
 
 <img src="https://raw.github.com/kvint/ios-encryption/master/screen1.png" />
 
-In add to targets section "EncryptTest" should be checked, the rest is your choice.
+Check "EncryptTest" in "add to targets" section. The rest is your choice.
 
 <img src="https://raw.github.com/kvint/ios-encryption/master/screen2.png" />
