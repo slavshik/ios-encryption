@@ -11,6 +11,7 @@
 @implementation EncryptorTest
 {
     Encryptor *encryptor;
+    Encryptor *decryptor;
 }
 - (void)setUp
 {
@@ -24,7 +25,7 @@
     NSString *private_key = [[NSString alloc] initWithContentsOfFile:privateKeyPath encoding:NSUTF8StringEncoding error:nil];
     
     encryptor = [[Encryptor alloc] initWithPublicKey:public_key andPrivateKey:private_key];
-    
+    decryptor = [[Encryptor alloc] initWithPublicKey:public_key andPrivateKey:private_key];
 }
 - (void)testWrongCreation
 {
@@ -48,6 +49,19 @@
     NSString *encrypted = [encryptor encrypt:text error:&error];
     NSLog(@"encrypted %@", encrypted);
     STAssertNil(error, @"encrypt shouldn't return error");
+}
+- (void)testAsymmetricEncryptionAndDecryption
+{
+    NSError *error = nil;
+    NSString *text = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce commodo vestibulum arcu sed rutrum. In hac habitasse platea dictumst. Nunc velit elit, congue eu lacinia id, dignissim sagittis neque. Morbi hendrerit lectus vel sem fermentum nec cursus neque blandit. Duis laoreet tincidunt venenatis. Ut eget neque elit. Proin erat lorem, aliquam sit amet pulvinar vitae, rhoncus eget nisi. Integer metus tellus, mattis at varius id, venenatis quis purus. Suspendisse quis dui non risus mollis vestibulum sit amet at dolor. Aenean vel nulla nulla, id fermentum nulla.";
+    NSString *encrypted = [encryptor encrypt:text error:&error];
+    NSLog(@"encrypted %@", encrypted);
+    STAssertNil(error, @"encrypt shouldn't return error");
+    
+    NSString *decrypted = [decryptor decrypt:encrypted error:&error];
+    NSLog(@"decrypted %@", decrypted);
+    STAssertNil(error, @"decrypt shouldn't return error");
+    STAssertTrue([decrypted isEqualToString:text], @"Wrong decryption");
 }
 
 - (void)tearDown

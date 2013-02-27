@@ -14,6 +14,8 @@
 		578AED3416DCE49A001106A8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57CB8DC916DB887400591A64 /* Security.framework */; };
 		578AED4F16DD1075001106A8 /* Encryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 578AED4C16DD1075001106A8 /* Encryptor.m */; };
 		578AED5016DD1075001106A8 /* NSData+AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 578AED4E16DD1075001106A8 /* NSData+AESCrypt.m */; };
+		57BC49A116DE38A500932945 /* key in Resources */ = {isa = PBXBuildFile; fileRef = 57BC499F16DE38A500932945 /* key */; };
+		57BC49A216DE38A500932945 /* key.pub in Resources */ = {isa = PBXBuildFile; fileRef = 57BC49A016DE38A500932945 /* key.pub */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		578AED4C16DD1075001106A8 /* Encryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Encryptor.m; path = Encryptor/Encryptor.m; sourceTree = SOURCE_ROOT; };
 		578AED4D16DD1075001106A8 /* NSData+AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+AESCrypt.h"; path = "Encryptor/NSData+AESCrypt.h"; sourceTree = SOURCE_ROOT; };
 		578AED4E16DD1075001106A8 /* NSData+AESCrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+AESCrypt.m"; path = "Encryptor/NSData+AESCrypt.m"; sourceTree = SOURCE_ROOT; };
+		57BC499F16DE38A500932945 /* key */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = key; sourceTree = SOURCE_ROOT; };
+		57BC49A016DE38A500932945 /* key.pub */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = key.pub; sourceTree = SOURCE_ROOT; };
 		57CB8D8616DB87F700591A64 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		57CB8D8816DB87F700591A64 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		57CB8D8A16DB87F700591A64 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -88,6 +92,8 @@
 		57CB8D8C16DB87F700591A64 /* iOS-Encryption */ = {
 			isa = PBXGroup;
 			children = (
+				57BC499F16DE38A500932945 /* key */,
+				57BC49A016DE38A500932945 /* key.pub */,
 				578AED4B16DD1075001106A8 /* Encryptor.h */,
 				578AED4C16DD1075001106A8 /* Encryptor.m */,
 				578AED4D16DD1075001106A8 /* NSData+AESCrypt.h */,
@@ -149,6 +155,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57BC49A116DE38A500932945 /* key in Resources */,
+				57BC49A216DE38A500932945 /* key.pub in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
