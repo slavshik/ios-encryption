@@ -5,7 +5,7 @@
 #import <UIKit/UIKit.h>
 #import <Security/Security.h>
 
-@interface Encryptor : NSObject
+@interface AsymmetricEncryptor : NSObject
 
 - (id)initWithPublicKey:(NSString *) public_key andPrivateKey:(NSString *) private_key;
 - (NSString *) encrypt:(NSString *)str error:(NSError **)e;

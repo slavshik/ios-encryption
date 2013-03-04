@@ -2,15 +2,10 @@
 //  Created by Alexander Slavschik on 25.02.13.
 //
 
-#import "Encryptor.h"
 #import "NSData+AESCrypt.h"
+#import "SymmetricEncryptor.h"
 
-const size_t BUFFER_SIZE = 64;
-const size_t CIPHER_BUFFER_SIZE = 1024;
-const uint32_t PADDING = kSecPaddingNone;
-const uint32_t keySize = 512;
-
-@implementation Encryptor
+@implementation SymmetricEncryptor
 {
     SecKeyRef publicKey;
     SecKeyRef privateKey;
@@ -21,14 +16,14 @@ const uint32_t keySize = 512;
 {
     @throw [[NSException alloc] initWithName:@"Initialisation failed" reason:@"You should use initWithPublicKey:andPrivateKey initialisation." userInfo:nil];
 }
-- (id) initWithPublicKey:(NSString *)public_key andPrivateKey:(NSString *)private_key
+- (id) initWithKey:(NSString *)key
 {
     if(self = [super init])
     {
-        privateTag = [private_key dataUsingEncoding:NSUTF8StringEncoding];
-        publicTag = [public_key dataUsingEncoding:NSUTF8StringEncoding];
+        privateTag = [key dataUsingEncoding:NSUTF8StringEncoding];
+        publicTag = [key dataUsingEncoding:NSUTF8StringEncoding];
         
-        [self generateKeyPair:keySize];
+        [self generateKeyPair:512];
     }
     return self;
 }
@@ -50,7 +45,7 @@ const uint32_t keySize = 512;
         uint8_t buffer[cipherBufferSize];
         NSUInteger bytesRead = [stream read:buffer maxLength:cipherBufferSize];
         
-        status = SecKeyEncrypt(publicKey, PADDING, buffer, bytesRead, cipherBuffer, &cipherBufferSize);
+        status = SecKeyEncrypt(publicKey, kSecPaddingNone, buffer, bytesRead, cipherBuffer, &cipherBufferSize);
         
         if(status != noErr){
             *e = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
@@ -83,7 +78,7 @@ const uint32_t keySize = 512;
         uint8_t buffer[cipherBufferSize];
         NSUInteger bytesRead = [stream read:buffer maxLength:cipherBufferSize];
         
-        status = SecKeyDecrypt(privateKey, PADDING, buffer, bytesRead, cipherBuffer, &cipherBufferSize);
+        status = SecKeyDecrypt(privateKey, kSecPaddingNone, buffer, bytesRead, cipherBuffer, &cipherBufferSize);
         
         if(status != noErr){
             *e = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];

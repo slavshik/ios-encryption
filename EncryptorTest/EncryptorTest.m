@@ -6,24 +6,18 @@
 //
 
 #import "EncryptorTest.h"
-#import "Encryptor.h"
+#import "SymmetricEncryptor.h"
 
 @implementation EncryptorTest
 {
-    Encryptor *encryptor;
+    SymmetricEncryptor *encryptor;
 }
 - (void)setUp
 {
     [super setUp];
-    
-    NSBundle *bundle = [NSBundle bundleForClass:[Encryptor class]];
-    NSString *publicKeyPath = [bundle pathForResource:@"key" ofType:@"pub"];
-    NSString *privateKeyPath = [bundle pathForResource:@"key" ofType:@""];
-    
-    NSString *public_key = [[NSString alloc] initWithContentsOfFile:publicKeyPath encoding:NSUTF8StringEncoding error:nil];
-    NSString *private_key = [[NSString alloc] initWithContentsOfFile:privateKeyPath encoding:NSUTF8StringEncoding error:nil];
-    
-    encryptor = [[Encryptor alloc] initWithPublicKey:public_key andPrivateKey:private_key];
+    NSString *public_key = @"-----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDFhZ4yM1bdm+m6pQhrtACraeM9UvCd5ROteiyt4CJ+mU1eY/rmD4mkRJdnny23jKm1RgO91dAXOekEY1MdQ/Xfx7LZY9Vv4NXwGjGWsXvZJoZVLBKJhgeM2RLZmMKVuTbN6xyBb7/3cx0C2yYQ70DeEsAffLWFERbf8QdHe8iM1QIDAQAB-----END PUBLIC KEY-----";
+
+    encryptor = [[SymmetricEncryptor alloc] initWithKey:public_key];
     
 }
 - (void)testWrongCreation
@@ -32,7 +26,7 @@
 }
 - (void) wrongCreation
 {
-    __unused Encryptor* encryptor = [[Encryptor alloc] init];
+    __unused SymmetricEncryptor* encryptor = [[SymmetricEncryptor alloc] init];
 }
 - (void)testSimpleEncyption
 {
