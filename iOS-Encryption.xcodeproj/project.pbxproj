@@ -7,27 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		577B34A916E4F1CE0002434E /* AsymmetricEncryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 577B34A516E4F1CE0002434E /* AsymmetricEncryptor.m */; };
+		577B34AA16E4F1CE0002434E /* SymmetricEncryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 577B34A816E4F1CE0002434E /* SymmetricEncryptor.m */; };
 		578AED1F16DCE314001106A8 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57CB8DAA16DB87F700591A64 /* SenTestingKit.framework */; };
 		578AED2016DCE314001106A8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57CB8D8616DB87F700591A64 /* UIKit.framework */; };
 		578AED2116DCE314001106A8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57CB8D8816DB87F700591A64 /* Foundation.framework */; };
 		578AED3116DCE342001106A8 /* EncryptorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 578AED3016DCE342001106A8 /* EncryptorTest.m */; };
 		578AED3416DCE49A001106A8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57CB8DC916DB887400591A64 /* Security.framework */; };
-		578AED4F16DD1075001106A8 /* Encryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 578AED4C16DD1075001106A8 /* Encryptor.m */; };
 		578AED5016DD1075001106A8 /* NSData+AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 578AED4E16DD1075001106A8 /* NSData+AESCrypt.m */; };
-		57BC49A116DE38A500932945 /* key in Resources */ = {isa = PBXBuildFile; fileRef = 57BC499F16DE38A500932945 /* key */; };
-		57BC49A216DE38A500932945 /* key.pub in Resources */ = {isa = PBXBuildFile; fileRef = 57BC49A016DE38A500932945 /* key.pub */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		577B34A416E4F1CE0002434E /* AsymmetricEncryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsymmetricEncryptor.h; path = Encryptor/AsymmetricEncryptor.h; sourceTree = SOURCE_ROOT; };
+		577B34A516E4F1CE0002434E /* AsymmetricEncryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsymmetricEncryptor.m; path = Encryptor/AsymmetricEncryptor.m; sourceTree = SOURCE_ROOT; };
+		577B34A616E4F1CE0002434E /* Encryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Encryptor.h; path = Encryptor/Encryptor.h; sourceTree = SOURCE_ROOT; };
+		577B34A716E4F1CE0002434E /* SymmetricEncryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SymmetricEncryptor.h; path = Encryptor/SymmetricEncryptor.h; sourceTree = SOURCE_ROOT; };
+		577B34A816E4F1CE0002434E /* SymmetricEncryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SymmetricEncryptor.m; path = Encryptor/SymmetricEncryptor.m; sourceTree = SOURCE_ROOT; };
 		578AED1E16DCE314001106A8 /* EncryptorTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EncryptorTest.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		578AED2F16DCE342001106A8 /* EncryptorTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptorTest.h; sourceTree = "<group>"; };
 		578AED3016DCE342001106A8 /* EncryptorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncryptorTest.m; sourceTree = "<group>"; };
-		578AED4B16DD1075001106A8 /* Encryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Encryptor.h; path = Encryptor/Encryptor.h; sourceTree = SOURCE_ROOT; };
-		578AED4C16DD1075001106A8 /* Encryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Encryptor.m; path = Encryptor/Encryptor.m; sourceTree = SOURCE_ROOT; };
 		578AED4D16DD1075001106A8 /* NSData+AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+AESCrypt.h"; path = "Encryptor/NSData+AESCrypt.h"; sourceTree = SOURCE_ROOT; };
 		578AED4E16DD1075001106A8 /* NSData+AESCrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+AESCrypt.m"; path = "Encryptor/NSData+AESCrypt.m"; sourceTree = SOURCE_ROOT; };
-		57BC499F16DE38A500932945 /* key */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = key; sourceTree = SOURCE_ROOT; };
-		57BC49A016DE38A500932945 /* key.pub */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = key.pub; sourceTree = SOURCE_ROOT; };
 		57CB8D8616DB87F700591A64 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		57CB8D8816DB87F700591A64 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		57CB8D8A16DB87F700591A64 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -92,10 +92,11 @@
 		57CB8D8C16DB87F700591A64 /* iOS-Encryption */ = {
 			isa = PBXGroup;
 			children = (
-				57BC499F16DE38A500932945 /* key */,
-				57BC49A016DE38A500932945 /* key.pub */,
-				578AED4B16DD1075001106A8 /* Encryptor.h */,
-				578AED4C16DD1075001106A8 /* Encryptor.m */,
+				577B34A416E4F1CE0002434E /* AsymmetricEncryptor.h */,
+				577B34A516E4F1CE0002434E /* AsymmetricEncryptor.m */,
+				577B34A616E4F1CE0002434E /* Encryptor.h */,
+				577B34A716E4F1CE0002434E /* SymmetricEncryptor.h */,
+				577B34A816E4F1CE0002434E /* SymmetricEncryptor.m */,
 				578AED4D16DD1075001106A8 /* NSData+AESCrypt.h */,
 				578AED4E16DD1075001106A8 /* NSData+AESCrypt.m */,
 			);
@@ -155,8 +156,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57BC49A116DE38A500932945 /* key in Resources */,
-				57BC49A216DE38A500932945 /* key.pub in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,8 +183,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				578AED3116DCE342001106A8 /* EncryptorTest.m in Sources */,
-				578AED4F16DD1075001106A8 /* Encryptor.m in Sources */,
 				578AED5016DD1075001106A8 /* NSData+AESCrypt.m in Sources */,
+				577B34A916E4F1CE0002434E /* AsymmetricEncryptor.m in Sources */,
+				577B34AA16E4F1CE0002434E /* SymmetricEncryptor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

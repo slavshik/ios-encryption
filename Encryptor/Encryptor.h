@@ -1,13 +1,12 @@
 //
-//  Created by Alexander Slavschik on 25.02.13.
+//  Created by Alexander Slavschik on 04.03.13.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 #import <Security/Security.h>
 
-@interface Encryptor : NSObject
-
-- (id)initWithPublicKey:(NSString *) public_key andPrivateKey:(NSString *) private_key;
+@protocol Encryptor <NSObject>
+@required
 - (NSString *) encrypt:(NSString *)str error:(NSError **)e;
 - (NSString *) decrypt:(NSString *)str error:(NSError **)e;
 @end
