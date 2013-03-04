@@ -4,8 +4,9 @@
 
 #import <UIKit/UIKit.h>
 #import <Security/Security.h>
+#import "Encryptor.h"
 
-@interface SymmetricEncryptor : NSObject
+@interface SymmetricEncryptor : NSObject <Encryptor>
 
 - (id)initWithKey:(NSString *) key;
 - (NSString *) encrypt:(NSString *)str error:(NSError **)e;

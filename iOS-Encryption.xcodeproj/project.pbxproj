@@ -20,6 +20,7 @@
 /* Begin PBXFileReference section */
 		577B349516E4E0BD0002434E /* SymmetricEncryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SymmetricEncryptor.h; path = Encryptor/SymmetricEncryptor.h; sourceTree = SOURCE_ROOT; };
 		577B349616E4E0BD0002434E /* SymmetricEncryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SymmetricEncryptor.m; path = Encryptor/SymmetricEncryptor.m; sourceTree = SOURCE_ROOT; };
+		577B349816E4E98E0002434E /* Encryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Encryptor.h; path = Encryptor/Encryptor.h; sourceTree = SOURCE_ROOT; };
 		578AED1E16DCE314001106A8 /* EncryptorTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EncryptorTest.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		578AED2F16DCE342001106A8 /* EncryptorTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptorTest.h; sourceTree = "<group>"; };
 		578AED3016DCE342001106A8 /* EncryptorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncryptorTest.m; sourceTree = "<group>"; };
@@ -97,6 +98,7 @@
 				578AED4C16DD1075001106A8 /* AsymmetricEncryptor.m */,
 				578AED4D16DD1075001106A8 /* NSData+AESCrypt.h */,
 				578AED4E16DD1075001106A8 /* NSData+AESCrypt.m */,
+				577B349816E4E98E0002434E /* Encryptor.h */,
 			);
 			name = "iOS-Encryption";
 			path = TestEncryption2;
