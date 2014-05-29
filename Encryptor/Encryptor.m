@@ -18,7 +18,7 @@ const uint32_t PADDING = kSecPaddingPKCS1;
 {
     OSStatus status = noErr;
     NSLog(@"encrypt");
-    
+    //convert String to NSDate
     NSData* inputData = [str dataUsingEncoding:NSUTF8StringEncoding];
     
     //  Allocate a buffer
@@ -28,16 +28,29 @@ const uint32_t PADDING = kSecPaddingPKCS1;
 	if(PADDING == kSecPaddingPKCS1)	{
 		bufferSize = keyBlockSize - 12;
 	}
+    //
 	size_t cipherBufferSize = keyBlockSize;
+    //create buffer that used to save plain data and Cipher data
     uint8_t *buffer = malloc(cipherBufferSize);//buffer to plain/cipher data
+    //init object from NSMutableData to save cipher data
     NSMutableData* encryptedData = [NSMutableData dataWithCapacity:0];
+    //convert String ===>NSData====>now we will convert it to STREAM
     NSInputStream *stream = [NSInputStream inputStreamWithData:inputData];
     [stream open];
+    //+++++++The Code In While statment
+    //beging stream from plain data and fill the buffer and encrypt it and set it to buffer again
     while ([stream hasBytesAvailable] && status == noErr) {
 		cipherBufferSize = keyBlockSize;
         //uint8_t buffer[blockSizeMinusPadding];
         NSUInteger bytesRead = [stream read:buffer maxLength:bufferSize];
+        //the method of encrypt and it's parameters
+        //status @result A result code. See "Security Error Codes" (SecBase.h).
+
+        //status = SecKeyEncrypt(key, padding, plainText, plainTextLen, cipherText, cipherTextLen);
+        //encrypt the plain text in buffer and set it to buffer again
+        //the size of plain bytes set it to bytesRead and the size of cipher bytes to cipherBufferSize
         status = SecKeyEncrypt(publicKeyRef, PADDING, buffer, bytesRead, buffer, &cipherBufferSize);
+        //append the buffer cipher data to encryptedData that prepered before
         [encryptedData appendBytes:buffer length:cipherBufferSize];
         
     }
