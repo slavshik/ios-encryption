@@ -5,7 +5,7 @@
 //  Created by Alexander Slavschik on 26.02.13.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface EncryptorTest : SenTestCase
+@interface EncryptorTest : XCTestCase
 @end
