@@ -50,6 +50,7 @@ const uint32_t PADDING = kSecPaddingPKCS1;
         //encrypt the plain text in buffer and set it to buffer again
         //the size of plain bytes set it to bytesRead and the size of cipher bytes to cipherBufferSize
         status = SecKeyEncrypt(publicKeyRef, PADDING, buffer, bytesRead, buffer, &cipherBufferSize);
+        
         //append the buffer cipher data to encryptedData that prepered before
         [encryptedData appendBytes:buffer length:cipherBufferSize];
         
