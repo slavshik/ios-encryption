@@ -16,11 +16,38 @@ const uint32_t PADDING = kSecPaddingPKCS1;
 }
 - (NSString *) encrypt:(NSString *)str withPublicKey:(NSString *)public_key
 {
+
+    //convert String to NSDate
+    NSData* inputData = [str dataUsingEncoding:NSUTF8StringEncoding];
+    //- (NSString *) encryptData:(NSData *)data withPublicKey:(NSString *)public_key;
+     NSData* outputData=[self encryptData:inputData withPublicKey:public_key];
+    //convert NSDate to String
+    return  [outputData base64EncodedString];
+
+}
+
+- (NSString *) decrypt:(NSString *)str withPrivateKey:(NSString *) private_key;
+{
+    //Convert cipher string to NSDate
+    NSData *inputData = [NSData dataWithBase64EncodedString:str];
+    //- (NSString *) decryptData:(NSData *)data withPrivateKey:(NSString *) private_key;
+    NSData *outputData =   [self decryptData:inputData withPrivateKey:private_key];
+    //convert the decrypted NSDate to String
+    return [[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding];
+
+
+}
+//- (NSString *) convertTypeOfFile:(NSString*)type  andPathFile:(NSString*)path{
+//    path = [[NSBundle mainBundle] pathForResource:path ofType:type];
+//    NSData *myData = [NSData dataWithContentsOfFile:path];
+//}
+#pragma mark - ِDATA ENCRYPTION DECREPTION
+//the method encypt the NSData object using Public Key
+- (NSData *) encryptData:(NSData *)inputData withPublicKey:(NSString *)public_key{
+    
+    
     OSStatus status = noErr;
     NSLog(@"encrypt");
-    
-    NSData* inputData = [str dataUsingEncoding:NSUTF8StringEncoding];
-    
     //  Allocate a buffer
 	SecKeyRef publicKeyRef = [self getPublicKeyRef:public_key];
 	size_t keyBlockSize = SecKeyGetBlockSize(publicKeyRef);
@@ -28,62 +55,84 @@ const uint32_t PADDING = kSecPaddingPKCS1;
 	if(PADDING == kSecPaddingPKCS1)	{
 		bufferSize = keyBlockSize - 12;
 	}
+    //
 	size_t cipherBufferSize = keyBlockSize;
+    //create buffer that used to save plain data and Cipher data
     uint8_t *buffer = malloc(cipherBufferSize);//buffer to plain/cipher data
+    //init object from NSMutableData to save cipher data
     NSMutableData* encryptedData = [NSMutableData dataWithCapacity:0];
+    //convert Plain String ===>NSData====>now we will convert it to STREAM
     NSInputStream *stream = [NSInputStream inputStreamWithData:inputData];
     [stream open];
+    //+++++++The Code In While statment
+    //beging stream from plain data and fill the buffer and encrypt it and set it to buffer again
     while ([stream hasBytesAvailable] && status == noErr) {
 		cipherBufferSize = keyBlockSize;
         //uint8_t buffer[blockSizeMinusPadding];
         NSUInteger bytesRead = [stream read:buffer maxLength:bufferSize];
+        //the method of encrypt and it's parameters
+        //status @result A result code. See "Security Error Codes" (SecBase.h).
+        
+        //status = SecKeyEncrypt(key, padding, plainText, plainTextLen, cipherText, cipherTextLen);
+        //encrypt the plain text in buffer and set it to buffer again
+        //the size of plain bytes set it to bytesRead and the size of cipher bytes to cipherBufferSize
         status = SecKeyEncrypt(publicKeyRef, PADDING, buffer, bytesRead, buffer, &cipherBufferSize);
+        
+        //append the buffer cipher data to encryptedData that prepered before
         [encryptedData appendBytes:buffer length:cipherBufferSize];
         
     }
     [stream close];
     free(buffer);
-
+    
 	if(status != noErr){
-		NSLog(@"encryption failed with status %ld", status);
+		NSLog(@"encryption failed with status %d", (int)status);
 		return nil;
 	}
-
-    return [encryptedData base64EncodedString];
+    
+    return encryptedData ;
 }
-- (NSString *) decrypt:(NSString *)str withPrivateKey:(NSString *) private_key;
-{
+- (NSData *) decryptData:(NSData *)data withPrivateKey:(NSString *) private_key{
+    
     OSStatus status = noErr;
-    
-    NSData *inputData = [NSData dataWithBase64EncodedString:str];
-    
+
     //  Allocate a buffer
 	SecKeyRef privateKeyRef = [self getPrivateKeyRef:private_key];
 	size_t keyBlockSize = SecKeyGetBlockSize(privateKeyRef);
     size_t plainTextLen = keyBlockSize;
     uint8_t *plainText = malloc(plainTextLen);
-    
+    //init object from NSMutableData to save plain data after decryption
     NSMutableData* decryptedData = [NSMutableData dataWithCapacity:0];
-    NSInputStream *stream = [NSInputStream inputStreamWithData:inputData];
+    //convert Cipher String ===>NSData====>now we will convert it to STREAM
+    NSInputStream *stream = [NSInputStream inputStreamWithData:data];
     [stream open];
+    //+++++++The Code In While statment
+    //beging stream from cipher data and fill the buffer and dencrypt it and set it to buffer again
     while ([stream hasBytesAvailable] && status == noErr) {
 		plainTextLen = keyBlockSize;
         uint8_t buffer[plainTextLen];
         NSUInteger bytesRead = [stream read:buffer maxLength:plainTextLen];
+        //the method of dencrypt and it's parameters
+        //status @result A result code. See "Security Error Codes" (SecBase.h).
+        
+        //status = SecKeyDecrypt(key, padding, cipherText, cipherTextLen, plainText, &lainTextLen);
+        //dencrypt the cipher text in buffer and set the plain text  to buffer again
+        //the size of cipher bytes set it to bytesRead and the size of plain bytes to plainTextLen
         status = SecKeyDecrypt(privateKeyRef, PADDING, buffer, bytesRead, plainText, &plainTextLen);
+        //append the buffer plain data to decryptedData that prepered before
         [decryptedData appendBytes:plainText length:plainTextLen];
     }
     [stream close];
     free(plainText);
 	
     if(status != noErr){
-		NSLog(@"Decryption failed with status %ld", status);
+		NSLog(@"Decryption failed with status %d", (int)status);
 		return nil;
 	}
-    return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
+    return decryptedData;
 }
+#pragma mark - GET THE KEYS
 
-#pragma mark -
 
 - (SecKeyRef) getPublicKeyRef:(NSString *)keyTag {
 
@@ -107,7 +156,7 @@ const uint32_t PADDING = kSecPaddingPKCS1;
 
         // Get the key.
         resultCode = SecItemCopyMatching((__bridge CFDictionaryRef)queryPublicKey, (CFTypeRef *)&publicKeyReference);
-        NSLog(@"getPublicKeyRef: result code: %ld %@", resultCode, publicKeyReference);
+        NSLog(@"getPublicKeyRef: result code: %d %@", (int)resultCode, publicKeyReference);
 		
         if(resultCode != noErr)
         {
@@ -138,7 +187,7 @@ const uint32_t PADDING = kSecPaddingPKCS1;
 
 	// Get the key.
 	resultCode = SecItemCopyMatching((__bridge CFDictionaryRef)queryPrivateKey, (CFTypeRef *)&privateKeyReference);
-	NSLog(@"getPrivateKey: result code: %ld %@", resultCode, privateKeyReference);
+	NSLog(@"getPrivateKey: result code: %d %@", (int)resultCode, privateKeyReference);
 	
 	if(resultCode != noErr)
 	{

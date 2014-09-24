@@ -29,8 +29,8 @@
 	//public_key = @"";
 	//private_key = @"";
 	
-	if(public_key == nil) STFail(@"Public key is nil");
-	if(private_key == nil) STFail(@"Private key is nil");
+	if(public_key == nil) XCTFail(@"Public key is nil");
+	if(private_key == nil) XCTFail(@"Private key is nil");
 	
 	encryptor = [[Encryptor alloc] init];
     decryptor = [[Encryptor alloc] init];
@@ -40,7 +40,7 @@
     NSError *error = nil;
     NSString *encrypted = [encryptor encrypt:@"simple string for encrypt" withPublicKey:public_key];
     NSLog(@"encrypted %@", encrypted);
-    STAssertNil(error, @"encrypt shouldn't return error");
+    XCTAssertNil(error, @"encrypt shouldn't return error");
 }
 - (void)testLargeEncyption
 {
@@ -48,7 +48,7 @@
     NSString *text = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce commodo vestibulum arcu sed rutrum. In hac habitasse platea dictumst. Nunc velit elit, congue eu lacinia id, dignissim sagittis neque. Morbi hendrerit lectus vel sem fermentum nec cursus neque blandit. Duis laoreet tincidunt venenatis. Ut eget neque elit. Proin erat lorem, aliquam sit amet pulvinar vitae, rhoncus eget nisi. Integer metus tellus, mattis at varius id, venenatis quis purus. Suspendisse quis dui non risus mollis vestibulum sit amet at dolor. Aenean vel nulla nulla, id fermentum nulla.";
     NSString *encrypted = [encryptor encrypt:text withPublicKey:public_key];
     NSLog(@"encrypted %@", encrypted);
-    STAssertNil(error, @"encrypt shouldn't return error");
+    XCTAssertNil(error, @"encrypt shouldn't return error");
 }
 - (void)testEncryptionAndDecryption
 {
@@ -56,12 +56,12 @@
     NSString *text = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce commodo vestibulum arcu sed rutrum. In hac habitasse platea dictumst. Nunc velit elit, congue eu lacinia id, dignissim sagittis neque. Morbi hendrerit lectus vel sem fermentum nec cursus neque blandit. Duis laoreet tincidunt venenatis. Ut eget neque elit. Proin erat lorem, aliquam sit amet pulvinar vitae, rhoncus eget nisi. Integer metus tellus, mattis at varius id, venenatis quis purus. Suspendisse quis dui non risus mollis vestibulum sit amet at dolor. Aenean vel nulla nulla, id fermentum nulla.";
     NSString *encrypted = [encryptor encrypt:text withPublicKey:public_key];
     NSLog(@"encrypted %@", encrypted);
-    STAssertNil(error, @"encrypt shouldn't return error");
+    XCTAssertNil(error, @"encrypt shouldn't return error");
     
     NSString *decrypted = [decryptor decrypt:encrypted withPrivateKey:private_key];
     NSLog(@"decrypted %@", decrypted);
-    STAssertNil(error, @"decrypt shouldn't return error");
-    STAssertTrue([decrypted isEqualToString:text], @"Wrong decryption");
+    XCTAssertNil(error, @"decrypt shouldn't return error");
+    XCTAssertTrue([decrypted isEqualToString:text], @"Wrong decryption");
 }
 
 - (void)tearDown

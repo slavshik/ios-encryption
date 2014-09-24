@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D6649E7193893AD00E594F1 /* key in Resources */ = {isa = PBXBuildFile; fileRef = 3D6649E5193893AD00E594F1 /* key */; };
+		3D6649E8193893AD00E594F1 /* key.pub in Resources */ = {isa = PBXBuildFile; fileRef = 3D6649E6193893AD00E594F1 /* key.pub */; };
+		3D6649EA1938DE1500E594F1 /* keygen.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3D6649E91938DE1500E594F1 /* keygen.sh */; };
 		5748DD26171EE94100977330 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5748DD24171EE94000977330 /* Base64.m */; };
-		578AED1F16DCE314001106A8 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57CB8DAA16DB87F700591A64 /* SenTestingKit.framework */; };
 		578AED2016DCE314001106A8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57CB8D8616DB87F700591A64 /* UIKit.framework */; };
 		578AED2116DCE314001106A8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57CB8D8816DB87F700591A64 /* Foundation.framework */; };
 		578AED3116DCE342001106A8 /* EncryptorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 578AED3016DCE342001106A8 /* EncryptorTest.m */; };
@@ -17,9 +19,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D6649E5193893AD00E594F1 /* key */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = key; path = Encryptor/key; sourceTree = SOURCE_ROOT; };
+		3D6649E6193893AD00E594F1 /* key.pub */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = key.pub; path = Encryptor/key.pub; sourceTree = SOURCE_ROOT; };
+		3D6649E91938DE1500E594F1 /* keygen.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = keygen.sh; sourceTree = SOURCE_ROOT; };
 		5748DD24171EE94000977330 /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Base64.m; path = Encryptor/Base64.m; sourceTree = SOURCE_ROOT; };
 		5748DD25171EE94100977330 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64.h; path = Encryptor/Base64.h; sourceTree = SOURCE_ROOT; };
-		578AED1E16DCE314001106A8 /* EncryptorTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EncryptorTest.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		578AED1E16DCE314001106A8 /* EncryptorTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EncryptorTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		578AED2F16DCE342001106A8 /* EncryptorTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptorTest.h; sourceTree = "<group>"; };
 		578AED3016DCE342001106A8 /* EncryptorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncryptorTest.m; sourceTree = "<group>"; };
 		578AED4B16DD1075001106A8 /* Encryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Encryptor.h; path = Encryptor/Encryptor.h; sourceTree = SOURCE_ROOT; };
@@ -27,7 +32,6 @@
 		57CB8D8616DB87F700591A64 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		57CB8D8816DB87F700591A64 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		57CB8D8A16DB87F700591A64 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		57CB8DAA16DB87F700591A64 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		57CB8DC916DB887400591A64 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -37,7 +41,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				578AED3416DCE49A001106A8 /* Security.framework in Frameworks */,
-				578AED1F16DCE314001106A8 /* SenTestingKit.framework in Frameworks */,
 				578AED2016DCE314001106A8 /* UIKit.framework in Frameworks */,
 				578AED2116DCE314001106A8 /* Foundation.framework in Frameworks */,
 			);
@@ -68,7 +71,7 @@
 		57CB8D8416DB87F700591A64 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				578AED1E16DCE314001106A8 /* EncryptorTest.octest */,
+				578AED1E16DCE314001106A8 /* EncryptorTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -80,7 +83,6 @@
 				57CB8D8616DB87F700591A64 /* UIKit.framework */,
 				57CB8D8816DB87F700591A64 /* Foundation.framework */,
 				57CB8D8A16DB87F700591A64 /* CoreGraphics.framework */,
-				57CB8DAA16DB87F700591A64 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -88,6 +90,9 @@
 		57CB8D8C16DB87F700591A64 /* iOS-Encryption */ = {
 			isa = PBXGroup;
 			children = (
+				3D6649E91938DE1500E594F1 /* keygen.sh */,
+				3D6649E5193893AD00E594F1 /* key */,
+				3D6649E6193893AD00E594F1 /* key.pub */,
 				578AED4B16DD1075001106A8 /* Encryptor.h */,
 				578AED4C16DD1075001106A8 /* Encryptor.m */,
 				5748DD24171EE94000977330 /* Base64.m */,
@@ -115,8 +120,8 @@
 			);
 			name = EncryptorTest;
 			productName = EncryptorTest;
-			productReference = 578AED1E16DCE314001106A8 /* EncryptorTest.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = 578AED1E16DCE314001106A8 /* EncryptorTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -124,6 +129,7 @@
 		57CB8D7B16DB87F700591A64 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastTestingUpgradeCheck = 0510;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Monterosa Productions Ltd";
 			};
@@ -149,6 +155,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D6649E7193893AD00E594F1 /* key in Resources */,
+				3D6649EA1938DE1500E594F1 /* keygen.sh in Resources */,
+				3D6649E8193893AD00E594F1 /* key.pub in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,14 +166,15 @@
 /* Begin PBXShellScriptBuildPhase section */
 		578AED1C16DCE314001106A8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/keygen.sh",
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
@@ -188,14 +198,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"\\\"$(SDKROOT)/Developer/Library/Frameworks\\\"",
+					"\\\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\\\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EncryptorTest/EncryptorTest-Prefix.pch";
 				INFOPLIST_FILE = "EncryptorTest/EncryptorTest-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -203,14 +213,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"\\\"$(SDKROOT)/Developer/Library/Frameworks\\\"",
+					"\\\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\\\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EncryptorTest/EncryptorTest-Prefix.pch";
 				INFOPLIST_FILE = "EncryptorTest/EncryptorTest-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
